@@ -1,0 +1,1 @@
+window.onload=function(){document.getElementById("btn").addEventListener("click",function(){console.log("点击了啦啦啦")})};
