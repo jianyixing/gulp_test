@@ -34,11 +34,18 @@ gulp.task('server',function(){
   });
 
 gulp.task("copy-index",function() {
-    return gulp.src("src/html/index.html")
+    return gulp.src("src/index.html")
     .pipe(minhtml())
     .pipe(gulp.dest("dist"))
     .pipe(connect.reload());
 });
+
+gulp.task("otherhtml", function() {
+    return gulp.src("src/html/*.html")
+    .pipe(minhtml())
+    .pipe(gulp.dest('dist/html'))
+    .pipe(connect.reload()); 
+})
 
 gulp.task('script', function () { //script时自定义的
     //将文件的源路径和发布路径赋值给相应变量
@@ -97,9 +104,14 @@ gulp.task("less",function(){
     .pipe(gulp.dest("dist/css")).pipe(connect.reload())
 });
 
+gulp.task('icont', function() {
+    return gulp.src("src/font/*")
+    .pipe(gulp.dest('dist/font'))
+    .pipe(connect.reload())
+})
 gulp.task("watchfile",function() {
     // gulp.run('copy-index','css','images', 'js');
-    gulp.run('copy-index','css','images', 'watchjs');
+    gulp.run('copy-index','css','images', 'watchjs', 'icont', "otherhtml");
     // gulp.watch('src/js/*.js', ['js']);
     // 复制index.html到dist目录中去
     gulp.watch('src/html/index.html', ['copy-index']);
@@ -108,6 +120,8 @@ gulp.task("watchfile",function() {
     // gulp.watch("src/less/*.less", ['less']);
     //监控img
     gulp.watch('src/images/*.*', ['images']);
+    gulp.watch('src/html/*.html', ['otherhtml']);
+    gulp.watch('src/font/*', ['icont']);
 })
 
 gulp.task('default', ['server', 'watchfile']);

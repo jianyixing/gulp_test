@@ -15,7 +15,10 @@ p{
     line-height: 40px;
     font-size: 17px;
 }
-
+a{
+    text-decoration: none;
+    color:black;
+}
 #btn{
     width:80px;
     height:30px;
@@ -29,4 +32,9 @@ p{
     cursor:pointer;
     transition: 1s all linear;
     outline:none;
+}
+
+#btn>i{
+    color:#fff;
+    font-size: 17px;
 }
