@@ -25,7 +25,7 @@ var handleError = function (err) {
     gutil.log('message: ' + err.message);
     gutil.log('plugin: ' + gutil.colors.yellow(err.plugin));
 };
-
+// 实现热更新
 gulp.task('server',function(){
     connect.server({
       root:'dist',
@@ -34,7 +34,10 @@ gulp.task('server',function(){
   });
 
 gulp.task("copy-index",function() {
-    return gulp.src("src/html/index.html").pipe(minhtml()).pipe(gulp.dest("dist"));
+    return gulp.src("src/html/index.html")
+    .pipe(minhtml())
+    .pipe(gulp.dest("dist"))
+    .pipe(connect.reload());
 });
 
 gulp.task('script', function () { //script时自定义的
@@ -56,13 +59,20 @@ gulp.task('watchjs', function () {
         gutil.log(gutil.colors.green('Dist: ') + paths.distPath);
         //获取错误信息，继续执行代码
         var combined = combiner.obj([
-            gulp.src(paths.srcPath),
+            gulp.src(paths.srcPath).pipe(connect.reload()),
             uglify(),
             gulp.dest(paths.distDir)
         ]);
         combined.on('error', handleError);
     });
 });
+
+// gulp.task("js",function(){
+//     return gulp.src("src/js/*.js")
+//     .pipe(uglify())
+//     .pipe(gulp.dest("dist/js"))
+//     .pipe(connect.reload());
+// })
 
 gulp.task('images', function () {
     //return gulp.src('images/*.jpg').pipe(gulp.dest('dist/images'));
@@ -72,13 +82,13 @@ gulp.task('images', function () {
     //再加了imgmin以后操作
     return gulp.src('src/images/**/*')
         .pipe(imgmin())
-        .pipe(gulp.dest('dist/images'));
+        .pipe(gulp.dest('dist/images')).pipe(connect.reload());
 });
 
 gulp.task("css", function () {
     return gulp.src("src/css/*.css").
     pipe(minifycss())
-        .pipe(gulp.dest("dist/css"));
+        .pipe(gulp.dest("dist/css")).pipe(connect.reload());
 })
 
 gulp.task("less",function(){
@@ -88,7 +98,9 @@ gulp.task("less",function(){
 });
 
 gulp.task("watchfile",function() {
-    gulp.run('copy-index','watchjs','css','images');
+    // gulp.run('copy-index','css','images', 'js');
+    gulp.run('copy-index','css','images', 'watchjs');
+    // gulp.watch('src/js/*.js', ['js']);
     // 复制index.html到dist目录中去
     gulp.watch('src/html/index.html', ['copy-index']);
     //监控css
@@ -97,4 +109,5 @@ gulp.task("watchfile",function() {
     //监控img
     gulp.watch('src/images/*.*', ['images']);
 })
+
 gulp.task('default', ['server', 'watchfile']);

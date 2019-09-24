@@ -10,6 +10,23 @@ div{
     text-align: center;
 }
 p{
-    background: red;
-    font-size: 7px;
+    background: yellow;
+    height: 40px;
+    line-height: 40px;
+    font-size: 17px;
+}
+
+#btn{
+    width:80px;
+    height:30px;
+    font-size: 15px;
+    background-color: #0080ff;
+    color:#fff;
+    text-align: center;
+    line-height: 30px;
+    border:0;
+    border-radius: 8px;
+    cursor:pointer;
+    transition: 1s all linear;
+    outline:none;
 }

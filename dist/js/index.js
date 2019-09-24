@@ -1,1 +1,1 @@
-window.onload=function(){document.getElementById("btn").addEventListener("click",function(){console.log("点击了啦啦啦")})};
+window.onload=function(){var n=document.getElementById("btn");n.addEventListener("click",function(e){e.target,window.event.srcElement;n.style.backgroundColor="yellow",n.style.transform="rotate(360deg)";var t=setTimeout(function(){n.style.backgroundColor="#0080ff",n.style.transform="rotate(0deg)",clearTimeout(t),t=null},1e3)})};
