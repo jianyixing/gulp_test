@@ -1,5 +1,5 @@
 window.onload = function() {
-    var btn = document.getElementById("btn");
+    const btn = document.getElementById("btn");
     btn.addEventListener("click",function(ev){
         var targ = ev.target | window.event.srcElement;
         btn.style.backgroundColor = "yellow";
@@ -10,6 +10,5 @@ window.onload = function() {
             clearTimeout(timeflag1);
             timeflag1 = null;
         },1000);
-    });
+    });   
 }
-

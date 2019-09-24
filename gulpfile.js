@@ -6,11 +6,17 @@
  * gulp.run()——运行任务
  * gulp.watch()——监听文件修改
  */
-
+/**
+ * @description 本文件对于src目录里的文件进行相应的处理
+ * 可以使你在使用的时候能够更加快速的开发和能够更加迅速的
+ * 定位到错误所在(该gulp的配置主要定位用于jq项目，框架类型
+ * 的项目请自行研究)
+ */
 var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     minhtml = require('gulp-htmlmin'),
     minifycss = require('gulp-minify-css'),
+    babel = require('gulp-babel'),
     less = require('gulp-less'),
     imgmin = require('gulp-imagemin'),
     gutil = require('gulp-util'),
@@ -66,7 +72,9 @@ gulp.task('watchjs', function () {
         gutil.log(gutil.colors.green('Dist: ') + paths.distPath);
         //获取错误信息，继续执行代码
         var combined = combiner.obj([
-            gulp.src(paths.srcPath).pipe(connect.reload()),
+            gulp.src(paths.srcPath)
+            .pipe(babel())
+            .pipe(connect.reload()),
             uglify(),
             gulp.dest(paths.distDir)
         ]);
